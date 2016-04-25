@@ -1,27 +1,27 @@
 # Ice Cream Shop
 
 ## Products
-* [ ] ice cream cones
-	* [ ] scoops; one or two
-		* [ ] you can mix flavors
-	* [ ] vessel; waffle cone, cup, in your hand
-	* [ ] does not support discounts
-* [ ] milkshakes
-	* [ ] icecream, one flavor
-	* [ ] milk: skim, whole, 2%
-	* [ ] supports discounts
-* [ ] floats
-	* [ ] scoops; any number
-	* [ ] scoop flavors; you can mix
-	* [ ] soda flavor
-	* [ ] supports discounts
+* [x] ice cream cones
+	* [x] scoops; one or two
+		* [x] you can mix flavors
+	* [x] vessel; waffle cone, cup, in your hand
+	* [x] does not support discounts
+* [x] milkshakes
+	* [x] icecream, one flavor
+	* [x] milk: skim, whole, 2%
+	* [x] supports discounts
+* [x] floats
+	* [x] scoops; any number
+	* [x] scoop flavors; you can mix
+	* [x] soda flavor
+	* [x] supports discounts
 
 ## Technical Requirements
-* [ ] write the code
+* [x] write the code
 * [ ] write example usage
 	* [ ] create a product of each type
 	* [ ] purchase at least one item with a discount
-	* [ ] use at least 5 different flavors of icecream
-	* [ ] use two different serving vessels; waffle cone, cup
-* [ ] no frameworks
+	* [x] use at least 5 different flavors of icecream
+	* [x] use two different serving vessels; waffle cone, cup
+* [x] no frameworks
 
