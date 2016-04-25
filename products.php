@@ -21,7 +21,7 @@ class Product
 
 		$isValid = true;
 		foreach ($this->_options as $key => $option) {
-			$so = $selectedOptions[$key];
+			$so = $selections[$key];
 			debug("evaluating option: $key ");
 			debug("- selected option: $so");
 
@@ -154,7 +154,7 @@ class Float extends Product
 }
 
 function debug($val) {
-	$isEnabled = true
+	$isEnabled = false;
 	if ($isEnabled) {
 		echo "$val\n";
 	}
