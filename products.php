@@ -4,46 +4,48 @@ class Product
 {
 	protected $_isDiscountable = true;
 	protected $_options = [];
+	protected $_isValid = true;
 
 	function __construct($selectedOptions)
 	{
-		$this->selectedOptions = $selectedOptions;
-		$isValid = $this->_validateOptions();
-		return $isValid;
+		$isValid = $this->_validateSelection($selectedOptions);
+		$this->_isValid = $isValid;
+		if ($isValid) {
+			$this->selectedOptions = $selectedOptions;
+		}
 	}
 
-	protected function _validateOptions(){
-		echo "performing validation \n";
-		echo "---------------------\n";
-		$isValid = true;
+	protected function _validateSelection($selections){
+		debug('performing validation');
+		debug('---------------------');
 
+		$isValid = true;
 		foreach ($this->_options as $key => $option) {
-			$so = $this->selectedOptions[$key];
-			echo "evaluating option: $key \n";
-			echo "selected option:";
-			var_dump($so);
+			$so = $selectedOptions[$key];
+			debug("evaluating option: $key ");
+			debug("- selected option: $so");
 
 			$isRequired = $option['isRequired'];
 
 			// Check that we have an input
 			if ($isRequired && is_null($so)){
-				echo "required option left out, continue \n";
+				debug("- required option left out, continue");
 				$isValid = false;
-				continue;
+				continue; //TODO: could be `break` for perf
 			}
 
 			// Check option selection
-			$inOptions = array_search($so, $option['options']) === false;
+			$inOptions = (false === array_search($so, $option['options']));
 			if ($isRequired && $inOptions) {
-				echo "invalid option selected \n";
+				debug("- invalid option selected ");
 				$isValid = false;
-				continue;
+				continue; //TODO: could be `break` for perf
 			}
+
+			debug("valid option");
 		}
 
-		echo "isValid:";
-		var_dump($isValid);
-
+		debug("isValid: $isValid");
 		return $isValid;
 	}
 
@@ -54,19 +56,22 @@ class Product
 	public function isDiscountable(){
 		return $this->_isDiscountable;
 	}
+
+	public function isValid(){
+		return $this->_isValid;
+	}
 }
 
 class IceCream extends Product
 {
-	//TODO: fill in more flavors
 	protected $_options = [
 		'scoop 1' => [
 			'isRequired' => true,
-			'options' => ['vanilla', 'chocolate'],
+			'options' => ['vanilla', 'chocolate', 'strawberry', 'mint chocolate chip', 'pistachio'],
 		],
 		'scoop 2' => [
 			'isRequired' => false,
-			'options' => ['vanilla', 'chocolate'],
+			'options' => ['vanilla', 'chocolate', 'strawberry', 'mint chocolate chip', 'pistachio'],
 		],
 		'vessel' => [
 			'isRequired' => true,
@@ -82,7 +87,7 @@ class Milkshake extends Product
 	protected $_options = [
 		'ice cream flavor' => [
 			'isRequired' => true,
-			'options' => ['vanilla', 'chocolate'],
+			'options' => ['vanilla', 'chocolate', 'strawberry', 'mint chocolate chip', 'pistachio'],
 		],
 		'milk' => [
 			'isRequired' => true,
@@ -98,24 +103,59 @@ class Milkshake extends Product
 class Float extends Product
 {
 	protected $_options = [
-		//TODO: any number of scoops
-		"scoops" => ["vanilla", "chocolate"],
-		"soda flavor" => ["root beer", "cola", "cream soda"],
+		'scoops' => ['vanilla', 'chocolate', 'strawberry', 'mint chocolate chip', 'pistachio'],
+		'soda flavor' => ['root beer', 'cola', 'cream soda'],
 	];
+
+	protected function _validateSelection($selectedOptions) {
+		$d = true;
+		debug("performing validation");
+		debug("---------------------");
+
+		$isValid = true;
+
+		// 1. Scoops
+		$selectedScoops = $selectedOptions['scoops'];
+
+		// Required
+		if (!$selectedScoops) {
+			debug('selected scoops not specified');
+			$isValid = false;
+		}
+
+		// Legal flavor choice
+		if ($selectedScoops) {
+			foreach ($selectedScoops as $selectedFlavor) {
+				if (false === array_search($selectedFlavor, $this->_options['scoops'])) {
+					debug('non valid flavor selection');
+					$isValid = false;
+					break;
+				}
+			}
+		}
+
+		// 2. Soda flavor
+		$selectedSoda = $selectedOptions['soda flavor'];
+
+		// Required
+		if (!$selectedSoda || !is_string($selectedSoda)) {
+			$isValid = false;
+			debug('emptyish soda selection');
+		}
+
+		// Legal soda choice
+		if (false === array_search($selectedSoda, $this->_options['soda flavor'])) {
+			debug('non valid soda flavor selection');
+			$isValid = false;
+		}
+
+		return $isValid;
+	}
 }
 
-// Examples
-$icOptions = ["scoop 1" => "vanilla", "vessel" => "wafflecone"];
-$ic = new IceCream($icOptions);
-
-// $shake = new Milkshake();
-// $float = new Float();
-
-// $set = [$ic, $shake, $float];
-// foreach ($set as $product) {
-// 	$o = $product->getOptions();
-// 	echo "\n";
-// 	echo get_class($product);
-// 	echo "\n------------\n";
-// 	var_dump($o);
-// }
+function debug($val) {
+	$isEnabled = true
+	if ($isEnabled) {
+		echo "$val\n";
+	}
+}
