@@ -2,15 +2,28 @@
 
 class Product
 {
-	protected $_isDiscountable = true;
+	protected $_price = 0;
 
 	/**
 	 * An array of options and rules for creating a product
 	 * @var array
+	 * - isRequired: bool
+	 * - options: []string
 	 */
 	protected $_options = [];
-	protected $_isValid = true;
-	protected $_price = 0;
+
+	/**
+	 * Whether the options on the product have
+	 * left the product in a state where it can be sold
+	 * @var boolean
+	 */
+	protected $_isValid = false;
+
+	/**
+	 * Can the product be discounted
+	 * @var boolean
+	 */
+	protected $_isDiscountable = true;
 
 	function __construct($selectedOptions)
 	{
@@ -138,6 +151,7 @@ class Float extends Product
 {
 	protected $_price = 6.99;
 	protected $_options = [
+		// Any number of scoops, you can mix flavors
 		'scoops' => ['vanilla', 'chocolate', 'strawberry', 'mint chocolate chip', 'pistachio'],
 		'soda flavor' => ['root beer', 'cola', 'cream soda'],
 	];
@@ -153,7 +167,7 @@ class Float extends Product
 		$selectedScoops = $selectedOptions['scoops'];
 
 		// Required
-		if (!$selectedScoops) {
+		if (!$selectedScoops || !is_array($selectedScoops)) {
 			debug('selected scoops not specified');
 			$isValid = false;
 		}
