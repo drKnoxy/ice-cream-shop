@@ -1,4 +1,7 @@
 # Ice Cream Shop
+1. example.php - example usage
+1. products.php - underlying classes
+1. tests.php - tests for more complex pieces of code
 
 ## Products
 * [x] ice cream cones
