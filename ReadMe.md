@@ -18,10 +18,10 @@
 
 ## Technical Requirements
 * [x] write the code
-* [ ] write example usage
-	* [ ] create a product of each type
-	* [ ] purchase at least one item with a discount
-	* [x] use at least 5 different flavors of icecream
-	* [x] use two different serving vessels; waffle cone, cup
+* [x] write example usage
+	* [x] 1. create a product of each type
+	* [x] 2. purchase at least one item with a discount
+	* [x] 3. use at least 5 different flavors of icecream
+	* [x] 4. use two different serving vessels; waffle cone, cup
 * [x] no frameworks
 
